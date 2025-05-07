@@ -415,3 +415,4 @@ pyrightconfig.json
 *.lock
 .env
 .venv/
+secret.json
