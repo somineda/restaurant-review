@@ -2,6 +2,6 @@ from django.urls import path
 from reviews.views import ReviewListCreateAPIView, ReviewDetailAPIView
 
 urlpatterns = [
-    path('', ReviewListCreateAPIView.as_view(), name='review-list'),
-    path('<int:pk>/', ReviewDetailAPIView.as_view(), name='review-detail'),
+    path('restaurants/<int:restaurant_id>/reviews/', ReviewListCreateAPIView.as_view(), name='review-list'),
+    path('reviews/<int:review_id>/', ReviewDetailAPIView.as_view(), name='review-detail'),
 ]
