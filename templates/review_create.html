@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>리뷰 작성</title>
+</head>
+<body>
+  <h1>리뷰 작성</h1>
+
+  <form id="review-form">
+    <label for="restaurant">식당 ID:</label><br>
+    <input type="number" id="restaurant" name="restaurant" required><br><br>
+
+    <label for="title">제목:</label><br>
+    <input type="text" id="title" name="title" required><br><br>
+
+    <label for="comment">내용:</label><br>
+    <textarea id="comment" name="comment" rows="4" required></textarea><br><br>
+
+    <button type="submit">작성</button>
+  </form>
+
+  <p id="message"></p>
+
+  <script>
+    document.getElementById('review-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const data = {
+        restaurant: document.getElementById('restaurant').value,
+        title: document.getElementById('title').value,
+        comment: document.getElementById('comment').value
+      };
+
+      fetch('http://localhost:8000/reviews/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include', // 로그인 세션 유지
+        body: JSON.stringify(data)
+      })
+      .then(res => {
+        if (res.ok) return res.json();
+        throw new Error('리뷰 작성 실패');
+      })
+      .then(result => {
+        document.getElementById('message').textContent = '리뷰가 등록되었습니다!';
+        document.getElementById('review-form').reset();
+      })
+      .catch(error => {
+        document.getElementById('message').textContent = error.message;
+      });
+    });
+  </script>
+</body>
+</html>

@@ -4,9 +4,17 @@ from rest_framework import status
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import get_user_model
 from users.serializers import SignupSerializer
+from django.shortcuts import render
 
 User = get_user_model()
 
+#회원가입
+def signup_page(request):
+    return render(request, 'signup.html')
+
+#로그인
+def login_page(request):
+    return render(request, 'login.html')
 
 class SignupView(APIView):
     def post(self, request):

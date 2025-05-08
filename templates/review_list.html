@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>리뷰 목록</title>
+</head>
+<body>
+  <h1>리뷰 목록</h1>
+  <ul id="review-list"></ul>
+
+  <script>
+    fetch('http://127.0.0.1:8000/reviews/')
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById('review-list');
+        data.forEach(review => {
+          const li = document.createElement('li');
+          li.textContent = `${review.title}: ${review.comment}`;
+          list.appendChild(li);
+        });
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!-- templates/restaurant_detail.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>식당 상세</title>
+</head>
+<body>
+  <div id="restaurant-info"></div>
+
+  <h2>리뷰 목록</h2>
+  <div id="review-list"></div>
+
+  <h3>리뷰 작성</h3>
+  <form id="review-form">
+    <input type="text" name="title" placeholder="제목" required><br>
+    <textarea name="comment" placeholder="리뷰 내용" required></textarea><br>
+    <button type="submit">리뷰 등록</button>
+  </form>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const restaurantId = params.get('id');
+
+    // 식당 정보 불러오기
+    fetch(`http://localhost:8000/restaurants/${restaurantId}/`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('restaurant-info').innerHTML = `
+          <h1>${data.name}</h1>
+          <p>${data.description || ''}</p>
+          <p>${data.address} | ${data.contact}</p>
+        `;
+      });
+
+    // 리뷰 목록 불러오기
+    fetch(`http://localhost:8000/reviews/?restaurant=${restaurantId}`)
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById('review-list');
+        data.results.forEach(review => {
+          const div = document.createElement('div');
+          div.innerHTML = `<strong>${review.title}</strong><p>${review.comment}</p>`;
+          container.appendChild(div);
+        });
+      });
+
+    // 리뷰 작성
+    document.getElementById('review-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const payload = {
+        restaurant: restaurantId,
+        title: form.title.value,
+        comment: form.comment.value
+      };
+
+      const res = await fetch('http://localhost:8000/reviews/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.status === 201) {
+        alert('리뷰 등록 완료');
+        location.reload();
+      } else {
+        alert('리뷰 등록 실패');
+      }
+    });
+
+    // CSRF helper
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+          const trimmed = cookie.trim();
+          if (trimmed.startsWith(name + '=')) {
+            cookieValue = decodeURIComponent(trimmed.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+  </script>
+</body>
+</html>

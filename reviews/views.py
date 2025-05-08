@@ -7,6 +7,14 @@ from .models import Review
 from .serializers import ReviewSerializer, ReviewDetailSerializer
 from restaurants.models import Restaurant
 from django.shortcuts import get_object_or_404
+from django.shortcuts import render
+
+def review_list_page(request):
+    return render(request, 'review_list.html')
+
+def review_create_page(request):
+    return render(request, 'review_create.html')
+
 
 
 class ReviewListCreateAPIView(generics.ListCreateAPIView):

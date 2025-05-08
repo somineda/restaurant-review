@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>식당 목록</title>
+</head>
+<body>
+  <h1>식당 목록</h1>
+  <ul id="restaurant-list"></ul>
+
+  <script>
+    fetch('http://127.0.0.1:8000/restaurants/')
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById('restaurant-list');
+        data.results.forEach(restaurant => {
+          const li = document.createElement('li');
+          li.textContent = `${restaurant.name} - ${restaurant.address}`;
+          list.appendChild(li);
+        });
+      });
+  </script>
+</body>
+</html>
