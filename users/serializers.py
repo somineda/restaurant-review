@@ -11,13 +11,17 @@ class SignupSerializer(serializers.ModelSerializer):
         fields = ['email', 'nickname', 'password']
 
     def create(self, validated_data):
-        return User.objects.create_user(**validated_data)
+        password = validated_data.pop('password')
+        user = User(**validated_data)
+        user.set_password(password)
+        user.save()
+        return user
 
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ('id', 'nickname', 'email', 'password', 'profile_image')
-        read_only_fields = ('id', 'nickname')
+        read_only_fields = ('id', 'nickname')  # nickname 변경 불가
         extra_kwargs = {
             'password': {'write_only': True}
         }

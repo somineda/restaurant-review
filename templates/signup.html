@@ -3,36 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <title>회원가입</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-  <h1>회원가입</h1>
-  <form id="signup-form">
-    <input type="text" id="nickname" placeholder="닉네임" required><br>
-    <input type="email" id="email" placeholder="이메일" required><br>
-    <input type="password" id="password" placeholder="비밀번호" required><br>
-    <button type="submit">회원가입</button>
+<body class="container my-5">
+  <h2>🧾 회원가입</h2>
+  <form id="signup-form" class="mt-4">
+    <div class="mb-3">
+      <input type="text" id="username" class="form-control" placeholder="아이디" required>
+    </div>
+    <div class="mb-3">
+      <input type="password" id="password" class="form-control" placeholder="비밀번호" required>
+    </div>
+    <button type="submit" class="btn btn-primary">가입하기</button>
   </form>
 
   <script>
     document.getElementById('signup-form').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const nickname = document.getElementById('nickname').value;
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
 
-      const response = await fetch('http://localhost:8000/users/signup/', {
+      const payload = {
+        username: document.getElementById('username').value,
+        password: document.getElementById('password').value
+      };
+
+      const res = await fetch('http://localhost:8000/users/api/signup/', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ nickname, email, password })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
       });
 
-      if (response.ok) {
-        alert('회원가입 성공!');
+      if (res.ok) {
+        alert('🎉 회원가입 성공! 로그인 페이지로 이동합니다.');
+        window.location.href = '/login.html';
       } else {
-        const data = await response.json();
-        alert('회원가입 실패: ' + JSON.stringify(data));
+        const data = await res.json();
+        alert('❌ 회원가입 실패: ' + (data.error || '알 수 없는 오류'));
       }
     });
   </script>

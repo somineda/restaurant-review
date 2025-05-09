@@ -27,10 +27,15 @@
   </style>
 </head>
 <body>
-  <!-- 상단 로그인/회원가입 메뉴 -->
+  <!-- 상단 로그인/로그아웃 메뉴 -->
   <nav class="d-flex justify-content-end p-3 gap-2">
-    <a href="/login.html" class="btn btn-outline-primary btn-sm">로그인</a>
-    <a href="/signup.html" class="btn btn-primary btn-sm">회원가입</a>
+    <span id="login-area">
+      <a href="/login.html" class="btn btn-outline-primary btn-sm">로그인</a>
+      <a href="/signup.html" class="btn btn-primary btn-sm">회원가입</a>
+    </span>
+    <span id="logout-area" style="display: none;">
+      <button onclick="logout()" class="btn btn-outline-danger btn-sm">로그아웃</button>
+    </span>
   </nav>
 
   <div class="container my-5">
@@ -40,6 +45,20 @@
   </div>
 
   <script>
+    // 로그인 여부에 따라 메뉴 표시
+    if (localStorage.getItem('access')) {
+      document.getElementById('login-area').style.display = 'none';
+      document.getElementById('logout-area').style.display = 'block';
+    }
+
+    function logout() {
+      localStorage.removeItem('access');
+      localStorage.removeItem('refresh');
+      alert('로그아웃 되었습니다.');
+      window.location.href = '/';
+    }
+
+    // 식당 목록 불러오기
     fetch('http://localhost:8000/restaurants/')
       .then(res => res.json())
       .then(data => {
