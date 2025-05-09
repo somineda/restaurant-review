@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from restaurants.models import Restaurant
 
 def main_page(request):
     return render(request, 'main.html')
@@ -17,3 +18,8 @@ def restaurant_detail_page(request):
 
 def review_list_page(request):
     return render(request, 'review_list.html')
+
+def main_view(request):
+    restaurants = Restaurant.objects.all()
+    return render(request, "main.html", {"restaurants": restaurants})
+

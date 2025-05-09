@@ -11,10 +11,14 @@ DAYS_OF_WEEK = [
     ('SUN', 'Sunday'),
 ]
 
+
 class Restaurant(BaseModel):
-    name = models.CharField(max_length=50)
-    address = models.CharField(max_length=200)
-    contact = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    image = models.ImageField(upload_to='restaurant_images/', blank=True, null=True)
+
+    address = models.CharField(max_length=200, null=True, blank=True)
+    contact = models.CharField(max_length=50, null=True, blank=True)
     open_time = models.TimeField(null=True, blank=True)
     close_time = models.TimeField(null=True, blank=True)
     last_order = models.TimeField(null=True, blank=True)

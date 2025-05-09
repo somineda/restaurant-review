@@ -7,13 +7,26 @@ from .models import Review
 from .serializers import ReviewSerializer, ReviewDetailSerializer
 from restaurants.models import Restaurant
 from django.shortcuts import get_object_or_404
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 def review_list_page(request):
     return render(request, 'review_list.html')
 
 def review_create_page(request):
     return render(request, 'review_create.html')
+
+def review_create(request, restaurant_id):
+    restaurant = Restaurant.objects.get(id=restaurant_id)
+    if request.method == "POST":
+        Review.objects.create(
+            restaurant=restaurant,
+            title=request.POST["title"],
+            content=request.POST["content"]
+        )
+        return redirect("/")
+    return render(request, "review_create.html", {"restaurant": restaurant})
+
+
 
 
 
