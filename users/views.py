@@ -4,6 +4,7 @@ from rest_framework import status
 from django.contrib.auth import get_user_model
 from users.serializers import SignupSerializer
 from django.shortcuts import render
+from rest_framework.permissions import AllowAny
 
 User = get_user_model()
 
@@ -16,6 +17,7 @@ def login_page(request):
     return render(request, 'login.html')
 
 class SignupView(APIView):
+    permission_classes = [AllowAny]
     def post(self, request):
         serializer = SignupSerializer(data=request.data)
         if serializer.is_valid():

@@ -6,6 +6,7 @@ from restaurants.serializers import RestaurantSerializer
 
 class ReviewSerializer(serializers.ModelSerializer):
     user = UserDetailSerializer(read_only=True)
+    title = serializers.CharField(required=False, allow_blank=True, allow_null=True)
 
     class Meta:
         model = Review
@@ -16,6 +17,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 class ReviewDetailSerializer(serializers.ModelSerializer):
     user = UserDetailSerializer(read_only=True)
     restaurant = RestaurantSerializer(read_only=True)
+    title = serializers.CharField(required=False, allow_blank=True, allow_null=True)
 
     class Meta:
         model = Review

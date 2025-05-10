@@ -8,12 +8,6 @@
   <h1>리뷰 작성</h1>
 
   <form id="review-form">
-    <label for="restaurant">식당 ID:</label><br>
-    <input type="number" id="restaurant" name="restaurant" required><br><br>
-
-    <label for="title">제목:</label><br>
-    <input type="text" id="title" name="title" required><br><br>
-
     <label for="comment">내용:</label><br>
     <textarea id="comment" name="comment" rows="4" required></textarea><br><br>
 
@@ -23,21 +17,23 @@
   <p id="message"></p>
 
   <script>
+    // 현재 URL에서 식당 ID 추출 (/reviews/create/5/ 같은 경로일 경우)
+    const pathParts = window.location.pathname.split('/');
+    const restaurantId = pathParts[pathParts.length - 2];  // 마지막이 빈 문자열일 수 있음
+
     document.getElementById('review-form').addEventListener('submit', function (e) {
       e.preventDefault();
 
       const data = {
-        restaurant: document.getElementById('restaurant').value,
-        title: document.getElementById('title').value,
         comment: document.getElementById('comment').value
       };
 
-      fetch('http://localhost:8000/reviews/', {
+      fetch(`http://localhost:8000/restaurants/${restaurantId}/reviews/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        credentials: 'include', // 로그인 세션 유지
+        credentials: 'include', // 세션 인증 유지 (로그인 상태일 때)
         body: JSON.stringify(data)
       })
       .then(res => {
@@ -45,11 +41,11 @@
         throw new Error('리뷰 작성 실패');
       })
       .then(result => {
-        document.getElementById('message').textContent = '리뷰가 등록되었습니다!';
+        document.getElementById('message').textContent = '✅ 리뷰가 등록되었습니다!';
         document.getElementById('review-form').reset();
       })
       .catch(error => {
-        document.getElementById('message').textContent = error.message;
+        document.getElementById('message').textContent = '❌ ' + error.message;
       });
     });
   </script>

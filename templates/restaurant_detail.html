@@ -11,24 +11,23 @@
 </head>
 <body>
   <div class="container">
-    <!-- 식당 정보 -->
-    <div id="restaurant-info" class="card mb-4 p-4 shadow-sm">
-      <!-- JavaScript로 채워짐 -->
+
+    <!-- ✅ 메인으로 돌아가기 버튼 -->
+    <div class="mb-4">
+      <a href="/" class="btn btn-outline-primary">← 메인으로</a>
     </div>
+
+    <!-- 식당 정보 -->
+    <div id="restaurant-info" class="card mb-4 p-4 shadow-sm"></div>
 
     <!-- 리뷰 목록 -->
     <h3>📝 리뷰 목록</h3>
-    <div id="review-list" class="mb-5">
-      <!-- JavaScript로 채워짐 -->
-    </div>
+    <div id="review-list" class="mb-5"></div>
 
     <!-- 리뷰 작성 -->
     <div class="card p-4 shadow-sm">
       <h4>✍️ 리뷰 작성</h4>
       <form id="review-form">
-        <div class="mb-3">
-          <input type="text" name="title" class="form-control" placeholder="제목" required>
-        </div>
         <div class="mb-3">
           <textarea name="comment" class="form-control" placeholder="리뷰 내용" rows="4" required></textarea>
         </div>
@@ -38,9 +37,9 @@
   </div>
 
   <script>
-    // URL에서 /restaurants/2/detail/ 에서 2만 추출
     const pathParts = window.location.pathname.split('/');
     const restaurantId = pathParts[2];
+    const token = localStorage.getItem('access');
 
     // 식당 정보 불러오기
     fetch(`http://localhost:8000/restaurants/${restaurantId}/`)
@@ -58,37 +57,43 @@
       });
 
     // 리뷰 목록 불러오기
-    fetch(`http://localhost:8000/reviews/?restaurant=${restaurantId}`)
-      .then(res => res.json())
+    fetch(`http://localhost:8000/restaurants/${restaurantId}/reviews/`, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("리뷰 목록 불러오기 실패");
+        return res.json();
+      })
       .then(data => {
         const container = document.getElementById('review-list');
-        data.results.forEach(review => {
+        const reviews = data.results || data;
+        reviews.forEach(review => {
           const div = document.createElement('div');
           div.className = 'card p-3 review-card shadow-sm';
           div.innerHTML = `
-            <h5>${review.title}</h5>
             <p>${review.comment}</p>
-            <small class="text-muted">작성자: ${review.user?.email || '익명'} | ${review.created_at?.slice(0, 10)}</small>
+            <small class="text-muted">작성자: ${review.user?.nickname || review.user?.email || '익명'} | ${review.created_at?.slice(0, 10) || ''}</small>
           `;
           container.appendChild(div);
         });
-      });
+      })
+      .catch(err => console.error(err));
 
     // 리뷰 작성
     document.getElementById('review-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const form = e.target;
       const payload = {
-        restaurant: restaurantId,
-        title: form.title.value,
         comment: form.comment.value
       };
 
-      const res = await fetch('http://localhost:8000/reviews/', {
+      const res = await fetch(`http://localhost:8000/restaurants/${restaurantId}/reviews/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRFToken': getCookie('csrftoken')
+          'Authorization': 'Bearer ' + token
         },
         body: JSON.stringify(payload)
       });
@@ -97,25 +102,10 @@
         alert('✅ 리뷰 등록 완료');
         location.reload();
       } else {
-        alert('❌ 리뷰 등록 실패');
+        const errText = await res.text();
+        alert('❌ 리뷰 등록 실패: ' + errText);
       }
     });
-
-    // CSRF helper
-    function getCookie(name) {
-      let cookieValue = null;
-      if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let cookie of cookies) {
-          const trimmed = cookie.trim();
-          if (trimmed.startsWith(name + '=')) {
-            cookieValue = decodeURIComponent(trimmed.substring(name.length + 1));
-            break;
-          }
-        }
-      }
-      return cookieValue;
-    }
   </script>
 </body>
 </html>

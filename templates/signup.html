@@ -9,7 +9,10 @@
   <h2>🧾 회원가입</h2>
   <form id="signup-form" class="mt-4">
     <div class="mb-3">
-      <input type="text" id="username" class="form-control" placeholder="아이디" required>
+      <input type="email" id="email" class="form-control" placeholder="이메일" required>
+    </div>
+    <div class="mb-3">
+      <input type="text" id="nickname" class="form-control" placeholder="닉네임" required>
     </div>
     <div class="mb-3">
       <input type="password" id="password" class="form-control" placeholder="비밀번호" required>
@@ -22,7 +25,8 @@
       e.preventDefault();
 
       const payload = {
-        username: document.getElementById('username').value,
+        email: document.getElementById('email').value,
+        nickname: document.getElementById('nickname').value,
         password: document.getElementById('password').value
       };
 
@@ -34,10 +38,10 @@
 
       if (res.ok) {
         alert('🎉 회원가입 성공! 로그인 페이지로 이동합니다.');
-        window.location.href = '/login.html';
+        window.location.href = '/login';
       } else {
         const data = await res.json();
-        alert('❌ 회원가입 실패: ' + (data.error || '알 수 없는 오류'));
+        alert('❌ 회원가입 실패: ' + JSON.stringify(data));
       }
     });
   </script>

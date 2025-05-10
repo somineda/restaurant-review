@@ -6,7 +6,7 @@ from restaurants.models import Restaurant
 class Review(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=100, blank=True, null=True)
     comment = models.TextField()
 
     def __str__(self):

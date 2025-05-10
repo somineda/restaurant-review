@@ -9,7 +9,7 @@
   <h2>🔐 로그인</h2>
   <form id="login-form" class="mt-4">
     <div class="mb-3">
-      <input type="text" id="username" class="form-control" placeholder="아이디" required>
+      <input type="email" id="email" class="form-control" placeholder="이메일" required>
     </div>
     <div class="mb-3">
       <input type="password" id="password" class="form-control" placeholder="비밀번호" required>
@@ -22,7 +22,7 @@
       e.preventDefault();
 
       const payload = {
-        username: document.getElementById('username').value,
+        email: document.getElementById('email').value,
         password: document.getElementById('password').value
       };
 
@@ -39,7 +39,7 @@
         alert('✅ 로그인 성공');
         window.location.href = '/';
       } else {
-        alert('❌ 로그인 실패: 아이디 또는 비밀번호를 확인하세요.');
+        alert('❌ 로그인 실패: 이메일 또는 비밀번호를 확인하세요.');
       }
     });
   </script>
