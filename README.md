@@ -47,6 +47,45 @@
 
 ---
 
+# 5. Project Structure (프로젝트 구조)
+```plaintext
+restaurant_review_project/
+├── config/                    # Django 프로젝트 설정
+│   ├── settings.py
+│   ├── urls.py
+│   └── views.py
+│   ...
+├── restaurants/               # 식당 앱
+│   ├── models.py
+│   ├── serializers.py
+│   └── views.py
+├── reviews/                   # 리뷰 앱
+│   ├── models.py
+│   ├── serializers.py
+│   └── views.py
+├── users/                     # 회원가입, 로그인
+│   ├── models.py
+│   ├── serializers.py
+│   └── views.py
+├── templates/                 # HTML 템플릿
+│   ├── main.html
+│   ├── signup.html
+│   ├── login.html
+│   ├── restaurant_list.html
+│   ├── restaurant_detail.html
+│   ├── review_list.html
+│   └── review_create.html
+├── static/                    # CSS, JS 정적 파일
+├── media/                     # 이미지 업로드 저장
+├── secret.json                # 시크릿 키 파일
+├── pyproject.toml             # Poetry 설정
+├── manage.py
+└── README.md
+
+
+
+```
+
 ## 🚀 Getting Started
 
 ```bash
