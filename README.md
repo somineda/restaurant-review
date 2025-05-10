@@ -16,8 +16,12 @@
 
 ### ✅ 로그인 페이지
 
+---
+
 <br/>
-## 2. Key Features (주요 기능)
+<br/>
+
+# 2. Key Features (주요 기능)
 - ** 회원가입**:
   - 사용자는 정보 입력(닉네임, 이메일, 비밀번호) 후 가입할 수 있습니다. 
   - 회원가입 시 DB에 유저정보가 등록됩니다.
@@ -31,6 +35,8 @@
   - 유저 별 댓글 내용을 관리할 수 있습니다
 
 <br/>
+
+---
 
 ## 3. Technology Stack (기술 스택)
 
@@ -47,7 +53,7 @@
 
 ---
 
-# 5. Project Structure (프로젝트 구조)
+# 4. Project Structure (프로젝트 구조)
 ```plaintext
 restaurant_review_project/
 ├── config/                    # Django 프로젝트 설정
