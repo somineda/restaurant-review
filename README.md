@@ -31,19 +31,19 @@
   - 유저 별 댓글 내용을 관리할 수 있습니다
 
 <br/>
-# 3. Key Features (주요 기능)
-| 구분           | 기술                                             |
-| ------------ | ---------------------------------------------- |
-| **Frontend** | HTML5, CSS3, Bootstrap5, JavaScript            |
-| **Backend**  | Python 3.12, Django 5.0, Django REST Framework |
-| **Database** | MySQL                                          |
-| **인증**       | Simple JWT                                     |
-| **배포**       | AWS EC2, Gunicorn, Nginx                       |
-| **가상환경**     | Poetry                                         |
-| **정적/미디어**   | Static, Media 설정                               |
-| **Admin**    | Django Admin                                   |
-| **버전 관리**    | Git, GitHub                                    |
 
+## 3. Technology Stack (기술 스택)
+
+| 구분 | 사용 기술 |
+|:---|:---|
+| **Frontend** | HTML5, CSS3, Bootstrap5, JavaScript |
+| **Backend** | Python 3.12, Django 5.0, Django REST Framework |
+| **Database** | MySQL |
+| **Authentication** | Simple JWT |
+| **Server** | AWS EC2 (Ubuntu 22.04) |
+| **Web Server** | Gunicorn 23.0.0, Nginx |
+| **Admin** | Django Admin |
+| **Version Control** | Git, GitHub |
 
 ---
 
